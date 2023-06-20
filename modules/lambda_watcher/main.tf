@@ -77,8 +77,8 @@ resource "aws_lambda_function" "main" {
 
   environment {
     variables = {
-      NOTIFICATION_MESSAGE   = "${var.notification_message}"
-      SLACK_NOTIFICATION_URL = "${var.slack_notification_url}"
+      NOTIFICATION_MESSAGE        = "${var.notification_message}"
+      # TRAFFIC_ALERT_SNS_TOPIC_ARN = "${aws_sns_topic.traffic_alert.arn}"
     }
   }
 }
@@ -90,7 +90,7 @@ resource "aws_lambda_permission" "main" {
   principal     = "logs.${data.aws_region.current.name}.amazonaws.com"
   source_arn    = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:${var.target_log_group_name}:*"
 
-  depends_on = ["aws_lambda_function.main"]
+  depends_on    = ["aws_lambda_function.main"]
 }
 
 resource "aws_cloudwatch_log_subscription_filter" "main" {
