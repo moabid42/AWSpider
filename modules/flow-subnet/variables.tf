@@ -1,6 +1,6 @@
 variable "log_group_name" {
   description = "The name of the CloudWatch log group"
-  default     = "/opendevsecops/darknet"
+  default     = "/hg-mouad/darknet"
 }
 
 variable "log_retention_in_days" {
@@ -11,10 +11,3 @@ variable "log_retention_in_days" {
 variable "subnet_id" {
   description = "Subnet ID to attach to"
 }
-
-# depends_on workaround
-
-# variable "depends_on" {
-#   type    = list(string)
-#   default = []
-# }

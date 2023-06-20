@@ -38,7 +38,10 @@ resource "aws_iam_role_policy" "main_policy" {
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:${var.log_group_name}/*"
+      "Resource": [
+        "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:${var.log_group_name}:*:*",
+        "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:${var.log_group_name}"
+      ]
     }
   ]
 }
@@ -46,8 +49,10 @@ EOF
 }
 
 resource "aws_flow_log" "main" {
+  log_group_name = "${var.log_group_name}"
   iam_role_arn   = "${aws_iam_role.main.arn}"
-  log_destination = "${aws_cloudwatch_log_group.main.arn}"
+
   traffic_type = "ALL"
+
   vpc_id = "${var.vpc_id}"
 }
